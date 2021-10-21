@@ -70,7 +70,7 @@
   
   {% for i in bothVideoAudio %}
   <tbody id="tbody1">
-    <tr data-aos="fade-{% if forloop.index % 2 == 0 %}right{% else %}left{% endif %}">
+    <tr data-aos="fade-{% if loop.index % 2 == 0 %}right{% else %}left{% endif %}">
       <th scope="row"> {{i.resolution}}  </th>
       <td>{{i.mime_type}}</td>
       <td class="hide">{{i.fps}}</td>
@@ -91,7 +91,7 @@
   </thead>
   <tbody id="tbody2">
     {% for i in onlyAudio %}
-    <tr data-aos="fade-{% if forloop.index % 2 == 0 %}right{% else %}left{% endif %}">
+    <tr data-aos="fade-{% if loop.index % 2 == 0 %}right{% else %}left{% endif %}">
       <th scope="row"> {{i.mime_type}}  </th>
       <td>{{i.abr}}</td>
       <td>{{i.filesize}} Bytes</td>
@@ -113,7 +113,7 @@
   </thead>
   {% for i in onlyVideo %}
   <tbody id="tbody3">
-    <tr data-aos="fade-{% if forloop.index % 2 == 0 %}right{% else %}left{% endif %}">
+    <tr data-aos="fade-{% if loop.index % 2 == 0 %}right{% else %}left{% endif %}">
       <th scope="row"> {{i.resolution}}  </th>
       <td>{{i.mime_type}}</td>
       <td class="hide">{{i.fps}}</td>
