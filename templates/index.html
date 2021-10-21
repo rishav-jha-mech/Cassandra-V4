@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block preload %}
+  	<style>
+		@import url(css/app.css);/*Proved to be faster loading than link tag stylesheet*/
+	</style>
+  <script src="static/js/autocomplete.js"></script>
+{% endblock preload %}
+
+{% block body %}
+<!--MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN -->
+
+
+<div class="main">
+
+{% if not yobj %}
+<div id="body" class="container-fluid" data-aos="right">
+<h1 class="title py-2"> <span class="cass" style="font-family: 'Dancing Script', cursive; color: #ff156f;font-size:3.5rem;">Cassandra</span> <span class="block"> Youtube Downloader </span></h1>
+<p class="py-5" style="font-weight: 500;font-size:1.6rem;letter-spacing:2px;">Download Videos & Music From Youtube For Free</p>
+
+<form method="POST" id="forma" autocomplete="off">
+  <input id="link" type="url" name="link" placeholder="Paste Youtube Link Here" required>
+  <input id="butt" onclick="hides()" class="btn btn-mydesign mx-2" type="submit" value="Download">
+</form>
+<div class="form-check form-switch d-flex justify-content-center align-items-center py-3">
+  <input class="form-check-input mx-2" type="checkbox" role="switch" id="flexSwitchCheckDefault" style="transform: scale(1.8);"  onclick="togAuto()">
+  <label class="form-check-label fw-bold mx-3" for="flexSwitchCheckDefault" id="AucTu">Autocomplete Turned Off</label>
+</div>
+</div>
+<div id="desc" class="body1 py-5" data-aos="zoom-in">
+  <h1 style="text-align: center;" class="mb-5" >How To Download Youtube <span class="block">  Video / Audio &nbsp;?</span> </h1>
+  <p class="steps"  >1. paste the uRL in the input box.</p>
+  <p class="steps case"  >2. make sure the url is in the format of &nbsp;<a class="block" style="text-decoration: none;font-size: 14px;text-transform: none;" href="#"> https://www.youtube.com/watch?v=zRHNi3QfFlE </a></p>
+  <p class="steps"  >3. click on download button.</p>
+  <p class="steps"  >4. go to video / audio section to choose your file.</p>
+  <p class="steps"  >5. click on download button a new tab will open up.</p>
+  <p class="steps case"  >6. now on that video or audio click on this.<i style="font-size: 15px; background-color: rgb(216, 216, 216);padding: 8px;border: 2px solid black;color: black;" class="fas fa-ellipsis-v mx-2"></i> button</p>
+  <p class="steps"  >7. now select the download option</p>
+</div>
+{% endif %}
+<div class="body2">
+{% if yobj %}
+<a href="/" id="absBut">Download Again &nbsp;<i class="fas fa-arrow-down"></i></a>
+<h1 class="heaD pt-5 pb-3"> RESULTS </h1>
+<div class="papa my-5 py-4">
+<div class="left">
+ <img height="350px" width="500px" src="{{ yobj.thumbnail_url }}" alt="thumbnail" data-aos="zoom-out">
+</div>
+
+<div class="right">
+<h2 style="font-size: 1.7rem;font-weight: 700;" class="pb-4 px-1" data-aos="fade-up">      {{ yobj.title }}                </h2> 
+<div class="info pt-1 pb-3 mx-4">
+<p class="py-1" data-aos="fade-left">    <span class="label"> Channel Name: </span>   {{ yobj.author }}               </p>
+<p class="py-1" data-aos="fade-left">    <span class="label"> Video Length: </span>   {{ yobj.length }}&nbsp;Seconds               </p>
+<p class="py-1" data-aos="fade-left">    <span class="label"> Date Published: </span> {{ yobj.publish_date }}         </p>
+<p class="py-1" data-aos="fade-left">    <span class="label"> Views: </span>          {{ yobj.views }}                </p>
+</div>
+</div>
+</div>
+<h1 class="heaD py-3"> VIDEOS </h1>
+<table class="table table-hover table-style">
+  <thead id="thead1" data-aos="fade-left">
+    <tr>
+      <th scope="col">Resolution</th>
+      <th scope="col">Type</th>
+      <th class="hide" scope="col">FPS</th>
+      <th scope="col">Size</th>
+      <th scope="col">Download</th>
+    </tr>
+  </thead>
+  
+  {% for i in bothVideoAudio %}
+  <tbody id="tbody1">
+    <tr data-aos="fade-{% if forloop.index % 2 == 0 %}right{% else %}left{% endif %}">
+      <th scope="row"> {{i.resolution}}  </th>
+      <td>{{i.mime_type}}</td>
+      <td class="hide">{{i.fps}}</td>
+      <td>{{i.filesize}} Bytes</td>
+      <td> <a href="{{i.url}}" target="_blank"><button class="btn btn-primary">Download</button></a> </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<h1 class="heaD py-3"> AUDIO </h1>
+<table class="table table-hover table-style" data-aos="fade-right">
+  <thead id="thead2">
+      <th scope="col">Type</th>
+      <th scope="col">Speed</th>
+      <th scope="col">Size</th>
+      <th scope="col">Download</th>
+    </tr>
+  </thead>
+  <tbody id="tbody2">
+    {% for i in onlyAudio %}
+    <tr data-aos="fade-{% if forloop.index % 2 == 0 %}right{% else %}left{% endif %}">
+      <th scope="row"> {{i.mime_type}}  </th>
+      <td>{{i.abr}}</td>
+      <td>{{i.filesize}} Bytes</td>
+      <td> <a href="{{i.url}}" target="_blank"><button class="btn btn-success">Download</button></a> </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<h1 class="heaD py-3">ONLY VIDEO <span id="block500">(NO AUDIO)</span></h1>
+<table class="table table-hover table-style">
+  <thead id="thead3" data-aos="fade-left">
+    <tr>
+      <th scope="col">Resolution</th>
+      <th scope="col">Type</th>
+      <th class="hide" scope="col">FPS</th>
+      <th scope="col">Size</th>
+      <th scope="col">Download</th>
+    </tr>
+  </thead>
+  {% for i in onlyVideo %}
+  <tbody id="tbody3">
+    <tr data-aos="fade-{% if forloop.index % 2 == 0 %}right{% else %}left{% endif %}">
+      <th scope="row"> {{i.resolution}}  </th>
+      <td>{{i.mime_type}}</td>
+      <td class="hide">{{i.fps}}</td>
+      <td>{{i.filesize}} Bytes</td>
+      <td> <a href="{{i.url}}" target="_blank"><button class="btn btn-danger">Download</button></a> </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+</div>
+
+<!--MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN MAIN -->
+
+
+{% endblock body %}
