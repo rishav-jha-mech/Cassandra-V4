@@ -5,7 +5,7 @@ app = Flask(__name__,template_folder="templates",static_url_path='', static_fold
 
 
 @app.route("/", methods=['GET','POST'])
-def api():
+def WebHome():
 
     if request.method == 'POST':
         uri = request.form['link']
