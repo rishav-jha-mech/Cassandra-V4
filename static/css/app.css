@@ -440,3 +440,24 @@ form {
     margin-bottom: 0px;
   }
 }
+input[type='url']:focus{
+  background: linear-gradient(to right,rgba(173, 216, 230, 0.15),rgba(238, 130, 238, 0.15));
+}
+input[type='url']::placeholder{
+  color: #ff156f;
+}
+form #link{
+  color: #ff156f !important;
+  font-weight: 600;
+}
+@media(max-width:480px){
+  form #link{
+    color: aqua !important;
+  }   
+  input[type='url']:focus{
+    background: linear-gradient(to right,rgba(173, 216, 230, 0.15),rgba(238, 130, 238, 0.15));
+  }
+  input[type='url']::placeholder{
+    color: aqua !important;
+  }
+}
